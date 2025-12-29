@@ -29,15 +29,15 @@
   <widget class="QLabel" name="label_header">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>160</x>
      <y>50</y>
-     <width>551</width>
+     <width>671</width>
      <height>81</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Monotype Corsiva</family>
+     <family>Pacifico</family>
      <pointsize>28</pointsize>
      <weight>75</weight>
      <bold>true</bold>
@@ -61,7 +61,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Monotype Corsiva</family>
+     <family>Pacifico</family>
      <pointsize>24</pointsize>
     </font>
    </property>
@@ -74,13 +74,13 @@
     <rect>
      <x>30</x>
      <y>480</y>
-     <width>271</width>
+     <width>341</width>
      <height>91</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Monotype Corsiva</family>
+     <family>Pacifico</family>
      <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>

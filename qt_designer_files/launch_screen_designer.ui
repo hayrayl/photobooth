@@ -24,7 +24,7 @@
    </property>
    <property name="font">
     <font>
-     <family>NSimSun</family>
+     <family>Pacifico</family>
      <pointsize>19</pointsize>
      <weight>75</weight>
      <bold>true</bold>
@@ -58,13 +58,14 @@
    </property>
    <property name="font">
     <font>
+     <family>Pacifico</family>
      <pointsize>18</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
+     <weight>50</weight>
+     <bold>false</bold>
     </font>
    </property>
    <property name="text">
-    <string>THIS IS A SECRET </string>
+    <string>This is a secret</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -81,7 +82,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Monotype Corsiva</family>
+     <family>Pacifico</family>
      <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
@@ -102,7 +103,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Monotype Corsiva</family>
+     <family>Pacifico</family>
      <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
