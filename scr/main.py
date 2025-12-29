@@ -5,6 +5,7 @@ from PyQt5 import QtWidgets
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
 from ui_functions.launch_screen_function import LaunchScreen
+from ui_functions.home_screen_function import HomeScreen
 
 
 
@@ -20,10 +21,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # initialize all of the screens 
         self.launch_screen = LaunchScreen(self)
+        self.home_screen = HomeScreen(self)
 
         # This adds the screens to the stack. The index is how you know what screen to switch to
         # add the screen to the stack                       # Index 
         self.stackedWidget.addWidget(self.launch_screen)    # 0
+        self.stackedWidget.addWidget(self.home_screen)      # 1 
 
         
         # initializing to the launch screen 
