@@ -1,6 +1,8 @@
 import sys
 import os
 from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtCore import Qt 
 
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
@@ -12,9 +14,10 @@ from ui_functions.home_screen_function import HomeScreen
 # Index for which screen: 
 # 0 : launch screen
 
-class MainWindow(QtWidgets.QMainWindow):
+class PhotoboothWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        # self.setupUI()
         self.stackedWidget = QtWidgets.QStackedWidget()
         self.setCentralWidget(self.stackedWidget)
 
@@ -40,9 +43,19 @@ class MainWindow(QtWidgets.QMainWindow):
     def setIndex(self, index):
         self.stackedWidget.setCurrentIndex(int(index))
 
+    # this adds an escape to exit the application, press Esc 
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Escape:
+            self.close()
+
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    mainWindow = MainWindow()
-    mainWindow.show()
+    app = QApplication(sys.argv)
+    window = PhotoboothWindow()
+
+    # this will show the full screen for the raspberry pi
+    window.showFullScreen() 
+
+    # this is better for development 
+    # window.show()
     sys.exit(app.exec_())
