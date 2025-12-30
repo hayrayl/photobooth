@@ -30,7 +30,7 @@ class PhotoboothWindow(QMainWindow):
         # initialize all of the screens 
         self.launch_screen = LaunchScreen(self)
         self.home_screen = HomeScreen(self)
-        self.take_photo_screen = TakePhotoScreen(self)
+        self.take_photo_screen = TakePhotoScreen(self, self.camera)
 
         # This adds the screens to the stack. The index is how you know what screen to switch to
         # add the screen to the stack                           # Index 
