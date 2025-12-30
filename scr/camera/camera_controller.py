@@ -82,19 +82,51 @@ class CameraController:
         
         return frame
     
-    def take_photo(self, save_dir="photos", filename=None):
+    def crop_to_square(self, frame):
+        """
+        Crop frame to square (center crop)
+        
+        Args:
+            frame: Input frame
+        Returns: Square cropped frame
+        """
+        if frame is None:
+            return None
+        
+        h, w = frame.shape[:2]
+        
+        # Crop to square (center crop)
+        if w > h:
+            # Frame is wider - crop width
+            crop_size = h
+            start_x = (w - crop_size) // 2
+            cropped = frame[0:crop_size, start_x:start_x+crop_size]
+        else:
+            # Frame is taller - crop height
+            crop_size = w
+            start_y = (h - crop_size) // 2
+            cropped = frame[start_y:start_y+crop_size, 0:crop_size]
+        
+        return cropped
+
+    def take_photo(self, save_dir="photos", filename=None, crop_square=True):
         """
         Capture and save a photo
         
         Args:
             save_dir: Directory to save photos
             filename: Custom filename (without extension) or None for timestamp
+            crop_square: Whether to crop image to square before saving
         Returns: filepath if successful, None if failed
         """
         frame = self.get_frame()
         
         if frame is None:
             return None
+        
+        # Crop to square if requested
+        if crop_square:
+            frame = self.crop_to_square(frame)
         
         # Create photos directory if it doesn't exist
         os.makedirs(save_dir, exist_ok=True)
