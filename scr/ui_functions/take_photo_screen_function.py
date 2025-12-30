@@ -1,6 +1,7 @@
 import sys
 import os  
 from PyQt5 import QtCore, QtGui, QtWidgets
+import time
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from utilities import utils_screen
@@ -23,9 +24,11 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         self.countdown_timer.timeout.connect(self.countdown_tick)
         
         self.countdown_value = 3
-        self.is_taking_photo = False
-        self.captured_photo_path = None
-        self.showing_captured_photo = False
+        self.is_taking_photos = False
+        self.show_preview = False  # Only show preview during capture
+        self.current_photo_number = 0  # Track which photo (1, 2, or 3)
+        self.session_number = 0  # Track session number for naming
+        self.captured_photos = []  # Store paths of captured photos
         
         # Setup design and connect buttons
         self.design_setup()
@@ -40,15 +43,22 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         
         # Initially hide countdown
         self.label_countdown.hide()
+        self.label_countdown_2.hide()
+        
+        # Clear the photo display initially
+        self.label_counte.setText("Press 'Take Photo'\nto start!")
+        self.label_counte.setAlignment(QtCore.Qt.AlignCenter)
 
     def connect_signals(self):
-        self.pushButton_take_pic.clicked.connect(self.start_photo_capture)
+        self.pushButton_take_pic.clicked.connect(self.start_photo_session)
         self.pushButton_to_home.clicked.connect(self.go_to_home)
 
     def showEvent(self, event):
-        """Called when screen becomes visible - start camera preview"""
+        """Called when screen becomes visible"""
         super().showEvent(event)
-        self.start_preview()
+        # Don't auto-start preview - wait for button press
+        self.show_preview = False
+        self.label_counte.setText("Press 'Take Photo'\nto start!")
 
     def hideEvent(self, event):
         """Called when screen is hidden - stop camera preview"""
@@ -58,17 +68,17 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
     def start_preview(self):
         """Start showing live camera preview"""
         if self.camera.is_open:
-            self.showing_captured_photo = False
+            self.show_preview = True
             self.preview_timer.start(30)  # Update preview ~30 fps
 
     def stop_preview(self):
         """Stop camera preview"""
+        self.show_preview = False
         self.preview_timer.stop()
 
     def update_preview(self):
         """Update the photo label with live camera feed"""
-        # Don't update preview if showing captured photo
-        if self.showing_captured_photo:
+        if not self.show_preview:
             return
         
         frame = self.camera.get_frame()
@@ -87,12 +97,10 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         
         # Crop to square (center crop)
         if w > h:
-            # Frame is wider - crop width
             crop_size = h
             start_x = (w - crop_size) // 2
             cropped = rgb_frame[0:crop_size, start_x:start_x+crop_size]
         else:
-            # Frame is taller - crop height
             crop_size = w
             start_y = (h - crop_size) // 2
             cropped = rgb_frame[start_y:start_y+crop_size, 0:crop_size]
@@ -116,23 +124,39 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         pixmap = QtGui.QPixmap.fromImage(qt_image)
         label.setPixmap(pixmap)
 
-    def start_photo_capture(self):
-        """Start countdown and photo capture process"""
-        if self.is_taking_photo:
+    def start_photo_session(self):
+        """Start a 3-photo session"""
+        if self.is_taking_photos:
             return
         
-        self.is_taking_photo = True
+        self.is_taking_photos = True
+        self.current_photo_number = 1
+        self.captured_photos = []
+        
+        # Increment session number
+        self.session_number = self.main_window.photo_session_counter
+        self.main_window.photo_session_counter += 1
+        
+        # Hide buttons during photo session
+        self.pushButton_take_pic.hide()
+        self.pushButton_to_home.hide()
+        
+        # Start preview
+        self.start_preview()
+        
+        # Start first photo countdown
+        self.start_countdown()
+
+    def start_countdown(self):
+        """Start countdown for current photo"""
         self.countdown_value = 3
         
-        # Make sure we're showing preview (not captured photo)
-        self.showing_captured_photo = False
         
-        # Show countdown label
+        # Show countdown
         self.label_countdown.show()
+        self.label_countdown_2.show()
         self.label_countdown.setText(str(self.countdown_value))
-        
-        # Disable take photo button during capture
-        self.pushButton_take_pic.setEnabled(False)
+        self.label_countdown_2.setText(str(self.countdown_value))
         
         # Start countdown timer (1 second intervals)
         self.countdown_timer.start(1000)
@@ -143,50 +167,86 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         
         if self.countdown_value > 0:
             self.label_countdown.setText(str(self.countdown_value))
+            self.label_countdown_2.setText(str(self.countdown_value))
         else:
             # Countdown finished - take photo!
             self.countdown_timer.stop()
             self.label_countdown.setText("📸")
+            self.label_countdown_2.setText("📸")
             
             # Take photo after brief delay
             QtCore.QTimer.singleShot(200, self.capture_photo)
 
     def capture_photo(self):
-        """Actually capture the photo"""
-        # Get custom filename from main window
-        filename = self.main_window.get_next_photo_name()
+        """Capture  one photo in the session"""
+        # Generate filename: session_photo
+        filename = f"{self.session_number}_{self.current_photo_number}"
         
-        # Take the photo with custom name
-        photo_path = self.camera.take_photo(save_dir="photos", filename=filename)
+        # Take the photo and save to party folder
+        photo_path = self.camera.take_photo(
+            save_dir=self.main_window.party_folder,  # Use party folder instead of "photos"
+            filename=filename
+        )
         
         if photo_path:
-            self.captured_photo_path = photo_path
-            self.showing_captured_photo = True  # Flag to stop preview updates
-            print(f"Photo captured: {photo_path}")
+            self.captured_photos.append(photo_path)
+            print(f"Photo {self.current_photo_number} captured: {photo_path}")
+            
+            # Stop preview to show captured photo
+            self.show_preview = False
             
             # Display the captured photo
             self.display_captured_photo(photo_path)
             
-            # Update main text
-            self.label_main_text.setText("Photo Captured!")
+            # Hide countdown
+            self.label_countdown.hide()
+            self.label_countdown_2.hide()
             
-            # Hide countdown after 1 second
-            QtCore.QTimer.singleShot(1000, self.label_countdown.hide)
-            
-            # Resume preview after 3 seconds (or keep showing photo)
-            # Uncomment next line if you want to auto-resume preview:
-            # QtCore.QTimer.singleShot(3000, self.resume_preview)
+            # Show photo for 1 second, then proceed
+            if self.current_photo_number < 3:
+                # More photos to take
+                QtCore.QTimer.singleShot(1000, self.next_photo)
+            else:
+                # All photos taken - go to display screen
+                QtCore.QTimer.singleShot(1000, self.finish_session)
         else:
-            print("Failed to capture photo")
-            self.label_main_text.setText("Photo failed!")
-            self.showing_captured_photo = False
+            print(f"Failed to capture photo {self.current_photo_number}")
+            self.finish_session()
+
+    def next_photo(self):
+        """Prepare for next photo"""
+        self.current_photo_number += 1
         
-        # Re-enable button
-        self.pushButton_take_pic.setEnabled(True)
-        self.is_taking_photo = False
+        # Resume preview
+        self.show_preview = True
+        
+        # Start countdown for next photo
+        self.start_countdown()
+
+    def finish_session(self):
+        """Finish photo session and go to display screen"""
+        self.is_taking_photos = False
+        self.stop_preview()
+        
+        # Show buttons again
+        self.pushButton_take_pic.show()
+        self.pushButton_to_home.show()
+        
+        
+        self.label_countdown.hide()
+        self.label_countdown_2.hide()
+        
+        # Pass captured photos to display screen and switch to it
+        if len(self.captured_photos) == 3:
+            # Get the display screen and set photos
+            display_screen = self.main_window.display_photo_screen
+            display_screen.set_photos(self.captured_photos)
+            
+            # Switch to display screen (adjust index as needed)
+            self.parentWidget().setCurrentIndex(3)  # Assuming display screen is index 2
 
     def display_captured_photo(self, photo_path):
-        """Display the captured photo in the label"""
+        """Display a captured photo in the label"""
         import cv2
         
         # Read the saved photo
@@ -196,15 +256,8 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         else:
             print(f"Failed to load photo: {photo_path}")
 
-    def resume_preview(self):
-        """Resume live preview after showing captured photo"""
-        self.showing_captured_photo = False
-        self.label_main_text.setText("Taking a photo!!!")
-
     def go_to_home(self):
-        self.parentWidget().setCurrentIndex(1)
-
-
-        
-
-
+        """Go back to home screen"""
+        self.stop_preview()
+        self.label_counte.setText("Press 'Take Photo'\nto start!")
+        self.parentWidget().setCurrentIndex(1)  # Adjust index as needed
