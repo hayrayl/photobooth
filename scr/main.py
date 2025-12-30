@@ -10,7 +10,7 @@ from ui_functions.launch_screen_function import LaunchScreen
 from ui_functions.home_screen_function import HomeScreen
 from ui_functions.take_photo_screen_function import TakePhotoScreen
 
-
+from camera.camera_controller import CameraController
 
 # Index for which screen: 
 # 0 : launch screen
@@ -21,6 +21,10 @@ class PhotoboothWindow(QMainWindow):
         # self.setupUI()
         self.stackedWidget = QtWidgets.QStackedWidget()
         self.setCentralWidget(self.stackedWidget)
+
+        # Initialize camera once
+        self.camera = CameraController(camera_index=0, resolution=(1920, 1080))
+        self.camera.open_camera()
 
 
         # initialize all of the screens 
