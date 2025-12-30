@@ -124,8 +124,8 @@ if __name__ == '__main__':
     window = PhotoboothWindow()
 
     # this will show the full screen for the raspberry pi
-    # window.showFullScreen() 
+    window.showFullScreen() 
 
     # this is better for development 
-    window.show()
+    # window.show()
     sys.exit(app.exec_())
