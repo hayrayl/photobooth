@@ -48,3 +48,9 @@ temp/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Photos from photobooth
+photos/
+*.jpg
+*.jpeg
+*.png
