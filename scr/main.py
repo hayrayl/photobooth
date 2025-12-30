@@ -8,6 +8,7 @@ from PyQt5.QtCore import Qt
 sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
 from ui_functions.launch_screen_function import LaunchScreen
 from ui_functions.home_screen_function import HomeScreen
+from ui_functions.take_photo_screen_function import TakePhotoScreen
 
 
 
@@ -25,11 +26,13 @@ class PhotoboothWindow(QMainWindow):
         # initialize all of the screens 
         self.launch_screen = LaunchScreen(self)
         self.home_screen = HomeScreen(self)
+        self.take_photo_screen = TakePhotoScreen(self)
 
         # This adds the screens to the stack. The index is how you know what screen to switch to
-        # add the screen to the stack                       # Index 
-        self.stackedWidget.addWidget(self.launch_screen)    # 0
-        self.stackedWidget.addWidget(self.home_screen)      # 1 
+        # add the screen to the stack                           # Index 
+        self.stackedWidget.addWidget(self.launch_screen)        # 0
+        self.stackedWidget.addWidget(self.home_screen)          # 1 
+        self.stackedWidget.addWidget(self.take_photo_screen)    # 2 
 
         
         # initializing to the launch screen 
@@ -54,8 +57,8 @@ if __name__ == '__main__':
     window = PhotoboothWindow()
 
     # this will show the full screen for the raspberry pi
-    window.showFullScreen() 
+    # window.showFullScreen() 
 
     # this is better for development 
-    # window.show()
+    window.show()
     sys.exit(app.exec_())

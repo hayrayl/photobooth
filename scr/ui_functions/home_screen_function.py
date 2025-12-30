@@ -28,6 +28,7 @@ class HomeScreen(QtWidgets.QWidget, Ui_Home):
 
     def take_photo(self):
         print("Pressed take photo button")
+        self.parentWidget().setCurrentIndex(2)
 
     def go_to_launch(self):
         self.parentWidget().setCurrentIndex(0)
