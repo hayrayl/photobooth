@@ -32,3 +32,28 @@ class HomeScreen(QtWidgets.QWidget, Ui_Home):
 
     def go_to_launch(self):
         self.parentWidget().setCurrentIndex(0)
+
+    def showEvent(self, event):
+        """Update USB status when screen appears"""
+        super().showEvent(event)
+        self.check_usb_status()
+
+    def check_usb_status(self):
+        """Check and display USB connection status"""
+        if self.main_window.usb_manager.is_usb_connected():
+            usb_path = self.main_window.usb_manager.get_first_usb()
+            free_space = self.main_window.usb_manager.get_usb_free_space()
+            
+            if free_space:
+                space_str = self.main_window.usb_manager.format_bytes(free_space)
+                status = f"USB Connected ({space_str} free)"
+            else:
+                status = "USB Connected"
+            
+            print(status)
+            # Optional: Display on screen
+            # self.label_header.setText(f"Welcome!\n{status}")
+        else:
+            print("No USB - saving locally")
+            # Optional: Display on screen
+            # self.label_header.setText("Welcome!\nNo USB - saving locally")

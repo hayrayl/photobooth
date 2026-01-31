@@ -232,18 +232,30 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         self.pushButton_take_pic.show()
         self.pushButton_to_home.show()
         
-        
         self.label_countdown.hide()
         self.label_countdown_2.hide()
         
-        # Pass captured photos to display screen and switch to it
+        # Check where photos were saved
+        if self.main_window.is_saving_to_usb():
+            # self.label_counte.setText("Saved to USB!")
+            print("Photos saved directly to USB")
+        else:
+            # self.label_counte.setText("Saved locally\n(No USB detected)")
+            print("Photos saved locally - no USB connected")
+        
+        # Wait a moment then go to display
+        self.go_to_display_screen()
+        # QtCore.QTimer.singleShot(1500, self.go_to_display_screen)
+
+    def go_to_display_screen(self):
+        """Navigate to display screen with photos"""
         if len(self.captured_photos) == 3:
             # Get the display screen and set photos
             display_screen = self.main_window.display_photo_screen
             display_screen.set_photos(self.captured_photos)
             
-            # Switch to display screen (adjust index as needed)
-            self.parentWidget().setCurrentIndex(3)  # Assuming display screen is index 2
+            # Switch to display screen
+            self.parentWidget().setCurrentIndex(3)
 
     def display_captured_photo(self, photo_path):
         """Display a captured photo in the label"""

@@ -12,6 +12,7 @@ from ui_functions.take_photo_screen_function import TakePhotoScreen
 from ui_functions.display_photo_screen_function import DisplayPhotoScreen
 
 from camera.camera_controller import CameraController
+from utilities.usb_manager import USBManager
 
 # Index for which screen: 
 # 0 : launch screen
@@ -24,11 +25,14 @@ class PhotoboothWindow(QMainWindow):
         self.setCentralWidget(self.stackedWidget)
 
         # Party name and photo counter
-        self.party_name = "haylie"  # Change this for each event
+        self.party_name = "haylie_party"  # Change this for each event
         self.photo_session_counter = 1  # Tracks session number (increments for each 3-photo burst)
 
-        # Create unique party folder
-        self.party_folder = self.create_party_folder(self.party_name)
+        # USB Manager
+        self.usb_manager = USBManager()
+        
+        # Create unique party folder (on USB if available, local if not)
+        self.party_folder = self.create_party_folder_smart(self.party_name)
 
         # Initialize camera once
         self.camera = CameraController(camera_index=0, resolution=(1920, 1080))
@@ -79,30 +83,45 @@ class PhotoboothWindow(QMainWindow):
         """
         Create a unique folder for the party
         If folder exists, append _1, _2, etc.
-        
-        Args:
-            party_name: Name of the party
-            base_dir: Base directory for photos
-        Returns:
-            Path to the created folder
         """
-        # Create base photos directory if it doesn't exist
         os.makedirs(base_dir, exist_ok=True)
         
-        # Start with the original party name
         folder_path = os.path.join(base_dir, party_name)
         
-        # If folder exists, append _1, _2, _3, etc.
         counter = 1
         while os.path.exists(folder_path):
             folder_path = os.path.join(base_dir, f"{party_name}_{counter}")
             counter += 1
         
-        # Create the folder
         os.makedirs(folder_path, exist_ok=True)
         print(f"Created party folder: {folder_path}")
         
         return folder_path
+    
+    def create_party_folder_smart(self, party_name):
+        """
+        Create party folder on USB if available, otherwise local
+        
+        Args:
+            party_name: Name of the party
+        Returns:
+            Path to the created folder
+        """
+        # Check if USB is connected
+        if self.usb_manager.is_usb_connected():
+            usb_path = self.usb_manager.get_first_usb()
+            base_dir = os.path.join(usb_path, "photobooth_photos")
+            print(f"USB detected! Saving to: {base_dir}")
+        else:
+            base_dir = "photos"
+            print("No USB detected. Saving locally to: photos/")
+        
+        # Create the party folder
+        return self.create_party_folder(party_name, base_dir=base_dir)
+    
+    def is_saving_to_usb(self):
+        """Check if currently saving to USB"""
+        return self.party_folder.startswith("/media") or self.party_folder.startswith("/mnt")
     
     def set_new_party(self, party_name):
         """
@@ -116,7 +135,8 @@ class PhotoboothWindow(QMainWindow):
         self.party_folder = self.create_party_folder(party_name)
         self.photo_session_counter = 1
         print(f"New party: {party_name}, folder: {self.party_folder}")
-        
+
+    
 
 
 if __name__ == '__main__':
@@ -124,8 +144,8 @@ if __name__ == '__main__':
     window = PhotoboothWindow()
 
     # this will show the full screen for the raspberry pi
-    window.showFullScreen() 
+    # window.showFullScreen() 
 
     # this is better for development 
-    # window.show()
+    window.show()
     sys.exit(app.exec_())
