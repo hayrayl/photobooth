@@ -10,6 +10,8 @@ from ui_functions.launch_screen_function import LaunchScreen
 from ui_functions.home_screen_function import HomeScreen
 from ui_functions.take_photo_screen_function import TakePhotoScreen
 from ui_functions.display_photo_screen_function import DisplayPhotoScreen
+from ui_functions.ask_to_email_screen_function import AskToEmailScreen
+from ui_functions.send_email_screen_function import SendEmailScreen
 
 from camera.camera_controller import CameraController
 from utilities.usb_manager import USBManager
@@ -44,17 +46,21 @@ class PhotoboothWindow(QMainWindow):
         self.home_screen = HomeScreen(self)
         self.take_photo_screen = TakePhotoScreen(self, self.camera)
         self.display_photo_screen = DisplayPhotoScreen(self)
+        self.ask_to_email_screen = AskToEmailScreen(self)  
+        self.send_email_screen = SendEmailScreen(self)
 
         # This adds the screens to the stack. The index is how you know what screen to switch to
         # add the screen to the stack                           # Index 
         self.stackedWidget.addWidget(self.launch_screen)        # 0
         self.stackedWidget.addWidget(self.home_screen)          # 1 
         self.stackedWidget.addWidget(self.take_photo_screen)    # 2 
-        self.stackedWidget.addWidget(self.display_photo_screen)
+        self.stackedWidget.addWidget(self.display_photo_screen) # 3
+        self.stackedWidget.addWidget(self.ask_to_email_screen)  # 4 
+        self.stackedWidget.addWidget(self.send_email_screen)    # 5
 
         
         # initializing to the launch screen 
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(1)
 
         self.resize(1024,600) # setting the size of the screen 
         self.setMaximumSize(1024,600)
@@ -135,7 +141,7 @@ class PhotoboothWindow(QMainWindow):
         self.party_folder = self.create_party_folder(party_name)
         self.photo_session_counter = 1
         print(f"New party: {party_name}, folder: {self.party_folder}")
-        
+
 
     def get_template_path(self):
         """

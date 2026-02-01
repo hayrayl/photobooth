@@ -79,7 +79,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_to_home">
+  <widget class="QPushButton" name="pushButton_to_print">
    <property name="geometry">
     <rect>
      <x>387</x>
@@ -95,7 +95,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Back to Home </string>
+    <string>Continue</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_main_text">
@@ -104,7 +104,7 @@
      <x>0</x>
      <y>30</y>
      <width>1024</width>
-     <height>71</height>
+     <height>101</height>
     </rect>
    </property>
    <property name="font">
@@ -142,7 +142,7 @@
   <zorder>label_image_1</zorder>
   <zorder>label_image_2</zorder>
   <zorder>label_image_3</zorder>
-  <zorder>pushButton_to_home</zorder>
+  <zorder>pushButton_to_print</zorder>
   <zorder>label_main_text</zorder>
  </widget>
  <resources/>

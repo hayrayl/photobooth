@@ -29,7 +29,7 @@ class DisplayPhotoScreen(QtWidgets.QWidget, Ui_Display_Images):
         self.label_image_3.setScaledContents(True)
 
     def connect_signals(self):
-        self.pushButton_to_home.clicked.connect(self.go_to_home)
+        self.pushButton_to_print.clicked.connect(self.go_to_ask_email)
 
     def set_photos(self, photo_paths):
         """Set the photos to display"""
@@ -73,6 +73,6 @@ class DisplayPhotoScreen(QtWidgets.QWidget, Ui_Display_Images):
         pixmap = QtGui.QPixmap.fromImage(qt_image)
         label.setPixmap(pixmap)
 
-    def go_to_home(self):
+    def go_to_ask_email(self):
         """Go back to home screen"""
-        self.parentWidget().setCurrentIndex(1)  
+        self.parentWidget().setCurrentIndex(4)  

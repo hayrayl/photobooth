@@ -236,9 +236,15 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         self.label_countdown.hide()
         self.label_countdown_2.hide()
         
-        # Create photo strip in background (but don't add to display)
+        # Create photo strip in background
         if len(self.captured_photos) == 3:
             self.create_photo_strip_background()
+        
+        # Store the strip path for later
+        self.strip_path = os.path.join(
+            self.main_window.party_folder,
+            f"strip_{self.session_number}.jpg"
+        )
         
         # Check where photos were saved
         if self.main_window.is_saving_to_usb():
