@@ -250,14 +250,10 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         QtCore.QTimer.singleShot(1500, self.go_to_display_screen)
 
     def create_photo_strip_background(self):
-        """Create the photo strip collage in background"""
         import os
         
-        # Path to template
-        template_path = os.path.join(
-            os.path.dirname(__file__), 
-            "../images/photo_strip_template.png"
-        )
+        # Get template path (checks USB first, then default)
+        template_path = self.main_window.get_template_path()
         
         # Output path for photo strip
         strip_filename = f"strip_{self.session_number}.jpg"
@@ -266,7 +262,7 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
             strip_filename
         )
         
-        # Create the photo strip (don't add to captured_photos list)
+        # Create the photo strip
         result = self.camera.create_photo_strip(
             self.captured_photos,
             template_path,

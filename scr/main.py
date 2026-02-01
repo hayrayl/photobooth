@@ -135,6 +135,30 @@ class PhotoboothWindow(QMainWindow):
         self.party_folder = self.create_party_folder(party_name)
         self.photo_session_counter = 1
         print(f"New party: {party_name}, folder: {self.party_folder}")
+        
+
+    def get_template_path(self):
+        """
+        Get template path - checks USB first, then uses default
+        
+        Returns:
+            Path to template image
+        """
+        # Default template path
+        default_template = os.path.join(
+            os.path.dirname(__file__),
+            "images/photo_strip_template.png"
+        )
+        
+        # Check for template on USB
+        usb_template = self.usb_manager.find_template_on_usb()
+        
+        if usb_template and os.path.exists(usb_template):
+            print(f"Using USB template: {usb_template}")
+            return usb_template
+        else:
+            print(f"Using default template: {default_template}")
+            return default_template
 
     
 

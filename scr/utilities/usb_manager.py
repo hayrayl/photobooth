@@ -114,3 +114,41 @@ class USBManager:
                 return f"{bytes_value:.2f} {unit}"
             bytes_value /= 1024.0
         return f"{bytes_value:.2f} TB"
+    
+    def find_template_on_usb(self, usb_path=None):
+        """
+        Look for a template image in the 'template' folder on USB
+        
+        Args:
+            usb_path: Path to USB drive (or None to auto-detect)
+        Returns:
+            Path to template image if found, None otherwise
+        """
+        if usb_path is None:
+            usb_path = self.get_first_usb()
+        
+        if usb_path is None:
+            return None
+        
+        # Look for template folder on USB
+        template_folder = os.path.join(usb_path, "template")
+        
+        if not os.path.exists(template_folder):
+            print(f"No template folder found on USB at: {template_folder}")
+            return None
+        
+        # Look for image files in template folder
+        image_extensions = ['.png', '.jpg', '.jpeg', '.PNG', '.JPG', '.JPEG']
+        
+        try:
+            files = os.listdir(template_folder)
+            for file in files:
+                if any(file.endswith(ext) for ext in image_extensions):
+                    template_path = os.path.join(template_folder, file)
+                    print(f"Found template on USB: {template_path}")
+                    return template_path
+        except Exception as e:
+            print(f"Error searching for template: {e}")
+        
+        print("No template image found in USB template folder")
+        return None
