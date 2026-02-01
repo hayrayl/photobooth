@@ -305,3 +305,102 @@ class CameraController:
     def __del__(self):
         """Cleanup when object is destroyed"""
         self.close_camera()
+
+
+
+    def create_photo_strip(self, image_paths, template_path, output_path):
+        """
+        Create a photo strip collage using a template
+        
+        Args:
+            image_paths: List of 3 photo file paths
+            template_path: Path to template image
+            output_path: Where to save the final collage
+        Returns:
+            Path to saved collage or None
+        """
+        import cv2
+        from PIL import Image
+        
+        if len(image_paths) != 3:
+            print(f"Need exactly 3 photos, got {len(image_paths)}")
+            return None
+        
+        try:
+            print(f"Loading template from: {template_path}")
+            
+            # Check if template exists
+            if not os.path.exists(template_path):
+                print(f"ERROR: Template not found at {template_path}")
+                return None
+            
+            # Load template
+            template = Image.open(template_path).convert('RGB')
+            print(f"Template loaded, original size: {template.size}")
+            
+            # 4x6 photo at 300 DPI = 1200x1800 pixels
+            target_size = (1200, 1800)
+            template = template.resize(target_size, Image.Resampling.LANCZOS)
+            print(f"Template resized to: {target_size}")
+            
+            # Start with the template as the base
+            final_image = template.copy()
+            
+            # Photo positions for LEFT strip (x, y, width, height)
+            left_positions = [
+                (75, 55, 460, 460),      # Top left photo
+                (75, 545, 460, 460),     # Middle left photo
+                (75, 1035, 460, 460)      # Bottom left photo
+            ]
+            
+            # Photo positions for RIGHT strip
+            right_positions = [
+                (675, 55, 460, 460),     # Top right photo
+                (675, 545, 460, 460),    # Middle right photo
+                (675, 1035, 460, 460)     # Bottom right photo
+            ]
+            
+            # Load and place photos ON TOP of template
+            for i, photo_path in enumerate(image_paths):
+                print(f"Processing photo {i+1}: {photo_path}")
+                
+                # Check if photo exists
+                if not os.path.exists(photo_path):
+                    print(f"ERROR: Photo not found: {photo_path}")
+                    continue
+                
+                # Load photo
+                photo = cv2.imread(photo_path)
+                if photo is None:
+                    print(f"ERROR: Could not load photo: {photo_path}")
+                    continue
+                
+                print(f"Photo {i+1} loaded, size: {photo.shape}")
+                
+                # Convert BGR to RGB
+                photo_rgb = cv2.cvtColor(photo, cv2.COLOR_BGR2RGB)
+                photo_pil = Image.fromarray(photo_rgb)
+                
+                # Place on LEFT strip
+                x, y, w, h = left_positions[i]
+                photo_resized = photo_pil.resize((w, h), Image.Resampling.LANCZOS)
+                final_image.paste(photo_resized, (x, y))
+                print(f"Pasted photo {i+1} on left at ({x}, {y})")
+                
+                # Place on RIGHT strip
+                x, y, w, h = right_positions[i]
+                photo_resized_right = photo_pil.resize((w, h), Image.Resampling.LANCZOS)
+                final_image.paste(photo_resized_right, (x, y))
+                print(f"Pasted photo {i+1} on right at ({x}, {y})")
+            
+            # Save as high-quality JPEG
+            final_image.save(output_path, 'JPEG', quality=95, dpi=(300, 300))
+            print(f"Photo strip saved: {output_path}")
+            
+            return output_path
+            
+        except Exception as e:
+            print(f"Error creating photo strip: {e}")
+            import traceback
+            traceback.print_exc()
+            return None

@@ -223,6 +223,7 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         # Start countdown for next photo
         self.start_countdown()
 
+        
     def finish_session(self):
         """Finish photo session and go to display screen"""
         self.is_taking_photos = False
@@ -235,27 +236,58 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         self.label_countdown.hide()
         self.label_countdown_2.hide()
         
+        # Create photo strip in background (but don't add to display)
+        if len(self.captured_photos) == 3:
+            self.create_photo_strip_background()
+        
         # Check where photos were saved
         if self.main_window.is_saving_to_usb():
-            # self.label_counte.setText("Saved to USB!")
-            print("Photos saved directly to USB")
+            self.label_counte.setText("Saved to USB!")
         else:
-            # self.label_counte.setText("Saved locally\n(No USB detected)")
-            print("Photos saved locally - no USB connected")
+            self.label_counte.setText("Saved locally\n(No USB detected)")
         
-        # Wait a moment then go to display
-        self.go_to_display_screen()
-        # QtCore.QTimer.singleShot(1500, self.go_to_display_screen)
+        # Wait then go to display
+        QtCore.QTimer.singleShot(1500, self.go_to_display_screen)
+
+    def create_photo_strip_background(self):
+        """Create the photo strip collage in background"""
+        import os
+        
+        # Path to template
+        template_path = os.path.join(
+            os.path.dirname(__file__), 
+            "../images/photo_strip_template.png"
+        )
+        
+        # Output path for photo strip
+        strip_filename = f"strip_{self.session_number}.jpg"
+        strip_path = os.path.join(
+            self.main_window.party_folder,
+            strip_filename
+        )
+        
+        # Create the photo strip (don't add to captured_photos list)
+        result = self.camera.create_photo_strip(
+            self.captured_photos,
+            template_path,
+            strip_path
+        )
+        
+        if result:
+            print(f"Photo strip created: {result}")
+        else:
+            print("Failed to create photo strip")
 
     def go_to_display_screen(self):
         """Navigate to display screen with photos"""
         if len(self.captured_photos) == 3:
-            # Get the display screen and set photos
+            # Get the display screen and set photos (only the 3 individual photos)
             display_screen = self.main_window.display_photo_screen
             display_screen.set_photos(self.captured_photos)
             
             # Switch to display screen
             self.parentWidget().setCurrentIndex(3)
+
 
     def display_captured_photo(self, photo_path):
         """Display a captured photo in the label"""
