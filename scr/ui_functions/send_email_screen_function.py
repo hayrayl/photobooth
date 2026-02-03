@@ -5,6 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from utilities import utils_screen
+from utilities.email_sender import EmailSender 
 from ui_screens.send_email import Ui_Send_Email
 
 class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
@@ -15,6 +16,8 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         
         self.captured_photos = []  # Photos to email
         self.photo_strip_path = None  # Path to photo strip
+
+        self.email_sender = EmailSender()
         
         # Setup design and connect buttons
         self.design_setup()
@@ -54,27 +57,30 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         
         # Validate email
         if not email:
-            self.label_main.setText("Please enter an email address")
+            self.label_title.setText("Please enter an email address")
             return
         
         if not self.validate_email(email):
-            self.label_main.setText("Invalid email format")
+            self.label_title.setText("Invalid email format")
             return
         
         # Disable button while sending
         self.pushButton_send.setEnabled(False)
         self.pushButton_skip.setEnabled(False)
-        self.label_main.setText("Sending...")
+        self.label_title.setText("Sending...")
         
-        # Send email (we'll implement this next)
+        # Force UI to update
+        QtWidgets.QApplication.processEvents()
+        
+        # Send email
         success = self.send_photos_via_email(email)
         
         if success:
-            self.label_main.setText("Email sent! ✓")
+            self.label_title.setText("Email sent! ✓")
             # Wait a moment then go home
             QtCore.QTimer.singleShot(2000, self.go_to_home)
         else:
-            self.label_main.setText("Failed to send. Try again?")
+            self.label_title.setText("Failed to send. Try again?")
             # Re-enable buttons
             self.pushButton_send.setEnabled(True)
             self.pushButton_skip.setEnabled(True)
@@ -82,20 +88,26 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
     def send_photos_via_email(self, recipient_email):
         """
         Actually send the email with photos
-        TODO: Implement email sending
         
         Args:
             recipient_email: Email address to send to
         Returns:
             True if successful, False otherwise
         """
-        print(f"Would send photos to: {recipient_email}")
-        print(f"Photos: {self.captured_photos}")
+        print(f"Sending photos to: {recipient_email}")
         print(f"Photo strip: {self.photo_strip_path}")
+
+        print(f"Email address: {self.email_sender.email_address}")
+        print(f"Strip path exists: {os.path.exists(self.photo_strip_path)}")
         
-        # TODO: Implement actual email sending
-        # For now, return True to test the flow
-        return True
+        # Send the email using EmailSender
+        success = self.email_sender.send_photo_strip(
+            recipient_email=recipient_email,
+            photo_strip_path=self.photo_strip_path,
+            individual_photos=self.captured_photos  # Optional: attach individual photos too
+        )
+        
+        return success
 
     def skip_email(self):
         """User clicked skip - go home without emailing"""
