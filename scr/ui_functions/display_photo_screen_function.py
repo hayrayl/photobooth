@@ -29,7 +29,7 @@ class DisplayPhotoScreen(QtWidgets.QWidget, Ui_Display_Images):
         self.label_image_3.setScaledContents(True)
 
     def connect_signals(self):
-        self.pushButton_to_print.clicked.connect(self.go_to_ask_email)
+        self.pushButton_to_print.clicked.connect(self.go_to_email_question)
 
     def set_photos(self, photo_paths):
         """Set the photos to display"""
