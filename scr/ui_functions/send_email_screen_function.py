@@ -57,17 +57,17 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         
         # Validate email
         if not email:
-            self.label_title.setText("Please enter an email address")
+            self.label_main.setText("Please enter an email address")
             return
         
         if not self.validate_email(email):
-            self.label_title.setText("Invalid email format")
+            self.label_main.setText("Invalid email format")
             return
         
         # Disable button while sending
         self.pushButton_send.setEnabled(False)
         self.pushButton_skip.setEnabled(False)
-        self.label_title.setText("Sending...")
+        self.label_main.setText("Sending...")
         
         # Force UI to update
         QtWidgets.QApplication.processEvents()
@@ -76,11 +76,11 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         success = self.send_photos_via_email(email)
         
         if success:
-            self.label_title.setText("Email sent! ✓")
+            self.label_main.setText("Email sent! ✓")
             # Wait a moment then go home
             QtCore.QTimer.singleShot(2000, self.go_to_home)
         else:
-            self.label_title.setText("Failed to send. Try again?")
+            self.label_main.setText("Failed to send. Try again?")
             # Re-enable buttons
             self.pushButton_send.setEnabled(True)
             self.pushButton_skip.setEnabled(True)
