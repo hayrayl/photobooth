@@ -20,7 +20,9 @@ class DisplayPhotoScreen(QtWidgets.QWidget, Ui_Display_Images):
         self.connect_signals()
 
     def design_setup(self):
-        utils_screen.pink_background(self.background)
+        utils_screen.set_background(self.background, self.main_window.color_scheme)
+        utils_screen.style_all_buttons(self, self.main_window.color_scheme)
+        utils_screen.style_all_labels(self, self.main_window.color_scheme)
 
         
         # Make labels display images properly

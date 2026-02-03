@@ -30,6 +30,8 @@ class PhotoboothWindow(QMainWindow):
         self.party_name = "haylie_party"  # Change this for each event
         self.photo_session_counter = 1  # Tracks session number (increments for each 3-photo burst)
 
+        self.color_scheme = 1 # track the color scheme 
+
         # USB Manager
         self.usb_manager = USBManager()
 

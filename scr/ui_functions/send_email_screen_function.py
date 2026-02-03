@@ -24,8 +24,10 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         self.connect_signals()
 
     def design_setup(self):
-        utils_screen.pink_background(self.background)
-        self.background.lower()
+        utils_screen.set_background(self.background, self.main_window.color_scheme)
+        utils_screen.style_all_buttons(self, self.main_window.color_scheme)
+        utils_screen.style_all_labels(self, self.main_window.color_scheme)
+        utils_screen.style_all_line_edits(self, self.main_window.color_scheme)
         
         # Set placeholder text for email input
         self.lineEdit_email.setPlaceholderText("your.email@example.com")

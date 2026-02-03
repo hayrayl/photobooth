@@ -22,7 +22,9 @@ class LaunchScreen(QtWidgets.QWidget, Ui_Launch):
 
     # initial design setup
     def design_setup(self):
-        utils_screen.pink_background(self.background)
+        utils_screen.set_background(self.background, self.main_window.color_scheme)
+        utils_screen.style_all_buttons(self, self.main_window.color_scheme)
+        utils_screen.style_all_labels(self, self.main_window.color_scheme)
 
     def connect_signals(self):
         self.pushButton_test.clicked.connect(self.show_secret)
@@ -40,7 +42,5 @@ class LaunchScreen(QtWidgets.QWidget, Ui_Launch):
     # change the background color button 
     def change_background(self):
         self.count = self.count + 1 
-        if self.count % 2 == 0:
-            utils_screen.pink_background(self.background)
-        else:
-            utils_screen.purple_background(self.background)
+        self.main_window.color_scheme = (self.count % 7) + 1
+        self.design_setup()

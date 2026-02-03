@@ -19,7 +19,9 @@ class HomeScreen(QtWidgets.QWidget, Ui_Home):
 
 
     def design_setup(self):
-        utils_screen.purple_background(self.background)
+        utils_screen.set_background(self.background, self.main_window.color_scheme)
+        utils_screen.style_all_buttons(self, self.main_window.color_scheme)
+        utils_screen.style_all_labels(self, self.main_window.color_scheme)
 
     def connect_signals(self):
         self.pushButton_take_photo.clicked.connect(self.take_photo)

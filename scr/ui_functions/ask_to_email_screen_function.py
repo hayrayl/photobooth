@@ -19,8 +19,9 @@ class AskToEmailScreen(QtWidgets.QWidget, Ui_Ask_Email):
         self.connect_signals()
 
     def design_setup(self):
-        utils_screen.pink_background(self.background)
-        self.background.lower()
+        utils_screen.set_background(self.background, self.main_window.color_scheme)
+        utils_screen.style_all_buttons(self, self.main_window.color_scheme)
+        utils_screen.style_all_labels(self, self.main_window.color_scheme)
 
     def connect_signals(self):
         self.pushButton_yes.clicked.connect(self.go_to_email_input)
