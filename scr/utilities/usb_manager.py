@@ -152,3 +152,19 @@ class USBManager:
         
         print("No template image found in USB template folder")
         return None
+    
+    def is_connected_to_internet(self):
+        """
+        Check if device has internet connection
+        
+        Returns:
+            True if connected, False otherwise
+        """
+        import socket
+        
+        try:
+            # Try to connect to Google's DNS server
+            socket.create_connection(("8.8.8.8", 53), timeout=3)
+            return True
+        except OSError:
+            return False

@@ -33,6 +33,9 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         # Clear any previous email
         self.lineEdit_email.clear()
 
+        # Initially hide the sending label
+        self.label_sending.hide()
+
     def connect_signals(self):
         self.pushButton_send.clicked.connect(self.send_email)
         self.pushButton_skip.clicked.connect(self.skip_email)
@@ -51,6 +54,34 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         return re.match(pattern, email) is not None
 
+    def show_sending_screen(self, message):
+        """
+        Show only the sending label with a message, hide everything else
+        
+        Args:
+            message: Text to display (e.g., "Sending..." or "Email sent!")
+        """
+        # Hide input elements
+        self.lineEdit_email.hide()
+        self.label_main.hide()
+        self.pushButton_send.hide()
+        self.pushButton_skip.hide()
+        
+        # Show and update sending label
+        self.label_sending.setText(message)
+        self.label_sending.show()
+
+    def show_input_screen(self):
+        """Show the email input elements, hide sending label"""
+        # Show input elements
+        self.lineEdit_email.show()
+        self.label_main.show()
+        self.pushButton_send.show()
+        self.pushButton_skip.show()
+        
+        # Hide sending label
+        self.label_sending.hide()
+
     def send_email(self):
         """Send email with photos"""
         email = self.lineEdit_email.text().strip()
@@ -64,10 +95,8 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
             self.label_main.setText("Invalid email format")
             return
         
-        # Disable button while sending
-        self.pushButton_send.setEnabled(False)
-        self.pushButton_skip.setEnabled(False)
-        self.label_main.setText("Sending...")
+        # Show sending screen
+        self.show_sending_screen("Sending...")
         
         # Force UI to update
         QtWidgets.QApplication.processEvents()
@@ -76,14 +105,13 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         success = self.send_photos_via_email(email)
         
         if success:
-            self.label_main.setText("Email sent! ✓")
+            self.show_sending_screen("Email sent! ✓")
             # Wait a moment then go home
             QtCore.QTimer.singleShot(2000, self.go_to_home)
         else:
+            # Show error and go back to input
+            self.show_input_screen()
             self.label_main.setText("Failed to send. Try again?")
-            # Re-enable buttons
-            self.pushButton_send.setEnabled(True)
-            self.pushButton_skip.setEnabled(True)
 
     def send_photos_via_email(self, recipient_email):
         """
@@ -104,7 +132,7 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         success = self.email_sender.send_photo_strip(
             recipient_email=recipient_email,
             photo_strip_path=self.photo_strip_path,
-            individual_photos=self.captured_photos  # Optional: attach individual photos too
+            individual_photos=self.captured_photos
         )
         
         return success
@@ -120,9 +148,12 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         self.lineEdit_email.clear()
         self.label_main.setText("Enter Your Email")
         
+        # Reset to input screen state
+        self.show_input_screen()
+        
         # Re-enable buttons
         self.pushButton_send.setEnabled(True)
         self.pushButton_skip.setEnabled(True)
         
         # Navigate to home
-        self.parentWidget().setCurrentIndex(1)  # Adjust to your home screen index
+        self.parentWidget().setCurrentIndex(1)

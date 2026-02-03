@@ -73,6 +73,22 @@ class DisplayPhotoScreen(QtWidgets.QWidget, Ui_Display_Images):
         pixmap = QtGui.QPixmap.fromImage(qt_image)
         label.setPixmap(pixmap)
 
-    def go_to_ask_email(self):
-        """Go back to home screen"""
-        self.parentWidget().setCurrentIndex(4)  
+    def go_to_email_question(self):
+        """Go to ask email screen or skip to home if no internet"""
+        # Check internet connection
+        if self.main_window.check_internet_connection():
+        
+            # Has internet - ask about email
+            # Pass photos to email screen
+            email_screen = self.main_window.ask_to_email_screen
+            email_screen.set_photos(self.photo_paths)
+            
+            # Navigate to email question screen
+            self.parentWidget().setCurrentIndex(4)
+        else: 
+            self.go_home_direct()
+
+    def go_home_direct(self):
+        """Go directly to home without email"""
+        self.label_main_text.setText("Your Pictures!")
+        self.parentWidget().setCurrentIndex(1)

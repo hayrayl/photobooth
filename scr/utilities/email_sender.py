@@ -45,7 +45,7 @@ Your photo strip is attached to this email. We hope you had a great time!
 Feel free to share your photos on social media and tag us!
 
 ---
-This is an automated email from the photobooth.
+This is an automated email from Capture The Foto - CTF photobooth.
             """
             
             msg.attach(MIMEText(body, 'plain'))

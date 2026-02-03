@@ -32,6 +32,10 @@ class PhotoboothWindow(QMainWindow):
 
         # USB Manager
         self.usb_manager = USBManager()
+
+        # Check internet connection at startup
+        self.has_internet = self.usb_manager.is_connected_to_internet()
+        print(f"Internet connection: {'Yes' if self.has_internet else 'No'}")
         
         # Create unique party folder (on USB if available, local if not)
         self.party_folder = self.create_party_folder_smart(self.party_name)
