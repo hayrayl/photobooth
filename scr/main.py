@@ -169,6 +169,14 @@ class PhotoboothWindow(QMainWindow):
         else:
             print(f"Using default template: {default_template}")
             return default_template
+        
+    def check_internet_connection(self):
+        """
+        Check internet connection status
+        Updates self.has_internet
+        """
+        self.has_internet = self.usb_manager.is_connected_to_internet()
+        return self.has_internet
 
     
 
