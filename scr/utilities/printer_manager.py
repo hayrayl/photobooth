@@ -51,7 +51,7 @@ class PrinterManager:
             result = subprocess.run([
                 'lp',
                 '-d', self.printer_name,
-                '-o', 'media=w288h432',
+                '-o', 'media=w288h432.Borderless',
                 '-o', 'print-scaling=fill',
                 '-o', 'media-type=photographic',
                 '-o', 'print-quality=5',
