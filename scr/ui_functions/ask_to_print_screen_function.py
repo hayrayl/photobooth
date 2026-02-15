@@ -58,26 +58,30 @@ class AskToPrintScreen(QtWidgets.QWidget, Ui_Ask_Print):
             self.go_to_home()
             return
         
-        # Show printing message
-        self.label_main.setText("Printing...")
-        self.pushButton_yes.setEnabled(False)
-        self.pushButton_no.setEnabled(False)
+        # Show printing message and hide buttons
+        self.label_main.setText("Your photos are printing!")
+        self.pushButton_yes.hide()
+        self.pushButton_no.hide()
         QtWidgets.QApplication.processEvents()
         
-        # Print the strip
+        # Send print job
         success = self.main_window.printer_manager.print_photo_strip(self.strip_path)
         
         if success:
-            self.label_main.setText("Printing! ✓")
-            QtCore.QTimer.singleShot(2000, self.go_to_home)
+            # Wait 30 seconds then go home
+            QtCore.QTimer.singleShot(30000, self.go_to_home)
         else:
+            # Print failed - show error and bring buttons back
             self.label_main.setText("Print failed.\nTry again?")
-            self.pushButton_yes.setEnabled(True)
-            self.pushButton_no.setEnabled(True)
+            self.pushButton_yes.show()
+            self.pushButton_no.show()
 
     def go_to_home(self):
         """Go back to home screen"""
+        # Reset everything for next user
         self.pushButton_yes.setEnabled(True)
         self.pushButton_no.setEnabled(True)
+        self.pushButton_yes.show()
+        self.pushButton_no.show()
         self.pushButton_yes.setText("Yes, print it!")
         self.parentWidget().setCurrentIndex(1)
