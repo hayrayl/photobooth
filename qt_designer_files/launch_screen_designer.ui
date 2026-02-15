@@ -13,27 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="pushButton_test">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>210</y>
-     <width>441</width>
-     <height>151</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Pacifico</family>
-     <pointsize>19</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Push this for a secret</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="background">
    <property name="geometry">
     <rect>
@@ -50,22 +29,23 @@
   <widget class="QLabel" name="label_test">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>110</y>
-     <width>441</width>
-     <height>101</height>
+     <x>0</x>
+     <y>30</y>
+     <width>1021</width>
+     <height>211</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Pacifico</family>
-     <pointsize>18</pointsize>
+     <pointsize>29</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
    </property>
    <property name="text">
-    <string>This is a secret</string>
+    <string>Please enter the party name and
+select color before starting session. </string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -74,16 +54,16 @@
   <widget class="QPushButton" name="pushButton_to_home">
    <property name="geometry">
     <rect>
-     <x>710</x>
-     <y>460</y>
-     <width>271</width>
-     <height>91</height>
+     <x>564</x>
+     <y>429</y>
+     <width>400</width>
+     <height>101</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Pacifico</family>
-     <pointsize>13</pointsize>
+     <pointsize>20</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -95,29 +75,46 @@
   <widget class="QPushButton" name="pushButton_change_background">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>470</y>
-     <width>271</width>
-     <height>91</height>
+     <x>60</x>
+     <y>429</y>
+     <width>400</width>
+     <height>101</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Pacifico</family>
-     <pointsize>13</pointsize>
+     <pointsize>20</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>Change Background </string>
+    <string>Change Color </string>
    </property>
   </widget>
-  <zorder>background</zorder>
-  <zorder>label_test</zorder>
-  <zorder>pushButton_test</zorder>
-  <zorder>pushButton_to_home</zorder>
-  <zorder>pushButton_change_background</zorder>
+  <widget class="QLineEdit" name="lineEdit_party">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>270</y>
+     <width>700</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Pacifico</family>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Party Name</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

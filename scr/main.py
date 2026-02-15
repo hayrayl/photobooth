@@ -38,9 +38,6 @@ class PhotoboothWindow(QMainWindow):
         # Check internet connection at startup
         self.has_internet = self.usb_manager.is_connected_to_internet()
         print(f"Internet connection: {'Yes' if self.has_internet else 'No'}")
-        
-        # Create unique party folder (on USB if available, local if not)
-        self.party_folder = self.create_party_folder_smart(self.party_name)
 
         # Initialize camera once
         self.camera = CameraController(camera_index=0, resolution=(1920, 1080))
@@ -66,7 +63,7 @@ class PhotoboothWindow(QMainWindow):
 
         
         # initializing to the launch screen 
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
 
         self.resize(1024,600) # setting the size of the screen 
         self.setMaximumSize(1024,600)
@@ -138,14 +135,16 @@ class PhotoboothWindow(QMainWindow):
     def set_new_party(self, party_name):
         """
         Set a new party name and create its folder
-        Use this when starting a new party/event
+        Called from launch screen
         
         Args:
             party_name: Name of the new party
         """
         self.party_name = party_name
-        self.party_folder = self.create_party_folder(party_name)
         self.photo_session_counter = 1
+        
+        # Create folder on USB if available, otherwise local
+        self.party_folder = self.create_party_folder_smart(party_name)
         print(f"New party: {party_name}, folder: {self.party_folder}")
 
 

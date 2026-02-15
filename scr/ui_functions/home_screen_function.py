@@ -25,15 +25,12 @@ class HomeScreen(QtWidgets.QWidget, Ui_Home):
 
     def connect_signals(self):
         self.pushButton_take_photo.clicked.connect(self.take_photo)
-        self.pushButton_to_launch.clicked.connect(self.go_to_launch)
         
 
     def take_photo(self):
         print("Pressed take photo button")
         self.parentWidget().setCurrentIndex(2)
 
-    def go_to_launch(self):
-        self.parentWidget().setCurrentIndex(0)
 
     def showEvent(self, event):
         """Update USB status when screen appears"""

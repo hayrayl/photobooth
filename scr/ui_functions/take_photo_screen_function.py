@@ -35,20 +35,48 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         self.connect_signals()
 
     def design_setup(self):
+        # Set background
         utils_screen.set_background(self.background, self.main_window.color_scheme)
+        
+        # Style all buttons
         utils_screen.style_all_buttons(self, self.main_window.color_scheme)
-        utils_screen.style_all_labels(self, self.main_window.color_scheme)
+        
+        # DO NOT style labels automatically - we need special handling
+        # The countdown labels and photo display label should not be styled
+
+        utils_screen.style_label(self.label_countdown_2, self.main_window.color_scheme)
         
         # Make sure photo label can display images
         self.label_counte.setScaledContents(True)
+        
+        # Style countdown labels with color scheme but keep them visible for numbers
+        color_scheme = utils_screen.get_color_scheme(self.main_window.color_scheme)
+        countdown_style = f"""
+            QLabel {{
+                color: {color_scheme['text']};
+                background-color: transparent;
+            }}
+        """
+        self.label_countdown.setStyleSheet(countdown_style)
+        self.label_countdown_2.setStyleSheet(countdown_style)
         
         # Initially hide countdown
         self.label_countdown.hide()
         self.label_countdown_2.hide()
         
+        # # Style the center label for text display
+        # self.label_counte.setStyleSheet(f"""
+        #     QLabel {{
+        #         color: {color_scheme['text']};
+        #         background-color: transparent;
+        #     }}
+        # """)
+        
         # Clear the photo display initially
         self.label_counte.setText("Press 'Take Photo'\nto start!")
         self.label_counte.setAlignment(QtCore.Qt.AlignCenter)
+        self.pushButton_to_home.raise_()
+        self.pushButton_take_pic.raise_()
 
     def connect_signals(self):
         self.pushButton_take_pic.clicked.connect(self.start_photo_session)
@@ -59,6 +87,15 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         super().showEvent(event)
         # Don't auto-start preview - wait for button press
         self.show_preview = False
+        
+        # Reset the label styling when showing screen
+        color_scheme = utils_screen.get_color_scheme(self.main_window.color_scheme)
+        self.label_counte.setStyleSheet(f"""
+            QLabel {{
+                color: {color_scheme['button_background']};
+                background-color: transparent;
+            }}
+        """)
         self.label_counte.setText("Press 'Take Photo'\nto start!")
 
     def hideEvent(self, event):
@@ -70,6 +107,8 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         """Start showing live camera preview"""
         if self.camera.is_open:
             self.show_preview = True
+            # Clear any text styling when showing preview
+            self.label_counte.setStyleSheet("")
             self.preview_timer.start(30)  # Update preview ~30 fps
 
     def stop_preview(self):
@@ -152,7 +191,6 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         """Start countdown for current photo"""
         self.countdown_value = 3
         
-        
         # Show countdown
         self.label_countdown.show()
         self.label_countdown_2.show()
@@ -179,13 +217,13 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
             QtCore.QTimer.singleShot(200, self.capture_photo)
 
     def capture_photo(self):
-        """Capture  one photo in the session"""
+        """Capture one photo in the session"""
         # Generate filename: session_photo
         filename = f"{self.session_number}_{self.current_photo_number}"
         
         # Take the photo and save to party folder
         photo_path = self.camera.take_photo(
-            save_dir=self.main_window.party_folder,  # Use party folder instead of "photos"
+            save_dir=self.main_window.party_folder,
             filename=filename
         )
         
@@ -224,7 +262,6 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
         # Start countdown for next photo
         self.start_countdown()
 
-        
     def finish_session(self):
         """Finish photo session and go to display screen"""
         self.is_taking_photos = False
@@ -246,6 +283,15 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
             self.main_window.party_folder,
             f"strip_{self.session_number}.jpg"
         )
+        
+        # Re-apply text styling for the message
+        color_scheme = utils_screen.get_color_scheme(self.main_window.color_scheme)
+        self.label_counte.setStyleSheet(f"""
+            QLabel {{
+                color: {color_scheme['button_background']};
+                background-color: transparent;
+            }}
+        """)
         
         # Check where photos were saved
         if self.main_window.is_saving_to_usb():
@@ -291,10 +337,12 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
             # Switch to display screen
             self.parentWidget().setCurrentIndex(3)
 
-
     def display_captured_photo(self, photo_path):
         """Display a captured photo in the label"""
         import cv2
+        
+        # Clear text styling to show image
+        self.label_counte.setStyleSheet("")
         
         # Read the saved photo
         frame = cv2.imread(photo_path)
@@ -304,7 +352,17 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
             print(f"Failed to load photo: {photo_path}")
 
     def go_to_home(self):
-        """Go back to home screen"""
-        self.stop_preview()
+        # """Go back to home screen"""
+        # self.stop_preview()
+        
+        # # Re-apply text styling
+        # color_scheme = utils_screen.get_color_scheme(self.main_window.color_scheme)
+        # self.label_counte.setStyleSheet(f"""
+        #     QLabel {{
+        #         color: {color_scheme['button_background']};
+        #         background-color: transparent;
+        #     }}
+        # """)
         self.label_counte.setText("Press 'Take Photo'\nto start!")
-        self.parentWidget().setCurrentIndex(1)  # Adjust index as needed
+        
+        self.parentWidget().setCurrentIndex(1)

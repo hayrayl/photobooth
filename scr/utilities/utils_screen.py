@@ -50,6 +50,12 @@ MINT = {
     "border": "#2E8B57"
 }
 
+ROSE_GOLD = {
+    "background": "#B76E79",
+    "button_background": "#96505A",
+    "text": "#FFFFFF",
+    "border": "#D4919A"
+}
 
 def get_color_scheme(color_number):
     """
@@ -78,6 +84,22 @@ def get_color_scheme(color_number):
         7: MINT
     }
     return schemes.get(color_number, PINK)  # Default to PINK if invalid number
+
+def get_all_color_schemes():
+    """
+    Get all available color schemes
+    Returns: Dictionary of all color schemes
+    """
+    return {
+        1: GREEN,
+        2: PINK,
+        3: PURPLE,
+        4: BLUE,
+        5: PEACH,
+        6: LAVENDER,
+        7: MINT,
+        8: ROSE_GOLD
+    }
 
 
 def set_background(background, color_number):
@@ -175,7 +197,7 @@ def style_all_labels(widget, color_number):
     labels = widget.findChildren(QtWidgets.QLabel)
     for label in labels:
         # Don't style the background label or image labels
-        if label.objectName() not in ['background', 'label_image_1', 'label_image_2', 'label_image_3', 'label_counte', 'label_countdown', 'label_countdown_2']:
+        if label.objectName() not in ['background', 'label_image_1', 'label_image_2', 'label_image_3', 'label_countdown', 'label_countdown_2']:
             style_label(label, color_number)
 
 
@@ -264,13 +286,3 @@ def darken_color(hex_color, percent):
     
     return f"#{r:02x}{g:02x}{b:02x}"
 
-
-# Legacy functions for backward compatibility
-def pink_background(background):
-    """Set pink solid color background (legacy)"""
-    set_background(background, 2)
-    
-
-def purple_background(background):
-    """Set purple solid color background (legacy)"""
-    set_background(background, 3)
