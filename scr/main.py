@@ -12,9 +12,13 @@ from ui_functions.take_photo_screen_function import TakePhotoScreen
 from ui_functions.display_photo_screen_function import DisplayPhotoScreen
 from ui_functions.ask_to_email_screen_function import AskToEmailScreen
 from ui_functions.send_email_screen_function import SendEmailScreen
+from ui_functions.ask_to_print_screen_function import AskToPrintScreen
+
+
 
 from camera.camera_controller import CameraController
 from utilities.usb_manager import USBManager
+from utilities.printer_manager import PrinterManager
 
 # Index for which screen: 
 # 0 : launch screen
@@ -43,23 +47,31 @@ class PhotoboothWindow(QMainWindow):
         self.camera = CameraController(camera_index=0, resolution=(1920, 1080))
         self.camera.open_camera()
 
+        # Initialize printer manager
+        self.printer_manager = PrinterManager()
+        
+        # Check printer at startup
+        if self.printer_manager.is_printer_connected():
+            print("Printer connected: Selphy ready!")
+        else:
+            print("Printer not connected")
 
-        # initialize all of the screens 
+
         self.launch_screen = LaunchScreen(self)
         self.home_screen = HomeScreen(self)
         self.take_photo_screen = TakePhotoScreen(self, self.camera)
         self.display_photo_screen = DisplayPhotoScreen(self)
-        self.ask_to_email_screen = AskToEmailScreen(self)  
+        self.ask_to_email_screen = AskToEmailScreen(self)
         self.send_email_screen = SendEmailScreen(self)
+        self.ask_to_print_screen = AskToPrintScreen(self)  # ADD THIS
 
-        # This adds the screens to the stack. The index is how you know what screen to switch to
-        # add the screen to the stack                           # Index 
         self.stackedWidget.addWidget(self.launch_screen)        # 0
-        self.stackedWidget.addWidget(self.home_screen)          # 1 
-        self.stackedWidget.addWidget(self.take_photo_screen)    # 2 
+        self.stackedWidget.addWidget(self.home_screen)          # 1
+        self.stackedWidget.addWidget(self.take_photo_screen)    # 2
         self.stackedWidget.addWidget(self.display_photo_screen) # 3
-        self.stackedWidget.addWidget(self.ask_to_email_screen)  # 4 
+        self.stackedWidget.addWidget(self.ask_to_email_screen)  # 4
         self.stackedWidget.addWidget(self.send_email_screen)    # 5
+        self.stackedWidget.addWidget(self.ask_to_print_screen)  # 6 
 
         
         # initializing to the launch screen 
@@ -187,8 +199,8 @@ if __name__ == '__main__':
     window = PhotoboothWindow()
 
     # this will show the full screen for the raspberry pi
-    # window.showFullScreen() 
+    window.showFullScreen() 
 
     # this is better for development 
-    window.show()
+    # window.show()
     sys.exit(app.exec_())

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\qt_designer_files\ask_to_email.ui'
+# Form implementation generated from reading ui file '.\qt_designer_files\ask_to_print.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -11,15 +11,15 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Ask_Email(object):
-    def setupUi(self, Ask_Email):
-        Ask_Email.setObjectName("Ask_Email")
-        Ask_Email.resize(1024, 600)
-        self.background = QtWidgets.QLabel(Ask_Email)
+class Ui_Ask_Print(object):
+    def setupUi(self, Ask_Print):
+        Ask_Print.setObjectName("Ask_Print")
+        Ask_Print.resize(1024, 600)
+        self.background = QtWidgets.QLabel(Ask_Print)
         self.background.setGeometry(QtCore.QRect(0, 0, 1024, 600))
         self.background.setText("")
         self.background.setObjectName("background")
-        self.label_main = QtWidgets.QLabel(Ask_Email)
+        self.label_main = QtWidgets.QLabel(Ask_Print)
         self.label_main.setGeometry(QtCore.QRect(0, 80, 1021, 181))
         font = QtGui.QFont()
         font.setFamily("Pacifico")
@@ -29,7 +29,7 @@ class Ui_Ask_Email(object):
         self.label_main.setFont(font)
         self.label_main.setAlignment(QtCore.Qt.AlignCenter)
         self.label_main.setObjectName("label_main")
-        self.pushButton_yes = QtWidgets.QPushButton(Ask_Email)
+        self.pushButton_yes = QtWidgets.QPushButton(Ask_Print)
         self.pushButton_yes.setGeometry(QtCore.QRect(574, 350, 350, 150))
         font = QtGui.QFont()
         font.setFamily("Pacifico")
@@ -38,7 +38,7 @@ class Ui_Ask_Email(object):
         font.setWeight(50)
         self.pushButton_yes.setFont(font)
         self.pushButton_yes.setObjectName("pushButton_yes")
-        self.pushButton_no = QtWidgets.QPushButton(Ask_Email)
+        self.pushButton_no = QtWidgets.QPushButton(Ask_Print)
         self.pushButton_no.setGeometry(QtCore.QRect(100, 350, 350, 150))
         font = QtGui.QFont()
         font.setFamily("Pacifico")
@@ -48,12 +48,12 @@ class Ui_Ask_Email(object):
         self.pushButton_no.setFont(font)
         self.pushButton_no.setObjectName("pushButton_no")
 
-        self.retranslateUi(Ask_Email)
-        QtCore.QMetaObject.connectSlotsByName(Ask_Email)
+        self.retranslateUi(Ask_Print)
+        QtCore.QMetaObject.connectSlotsByName(Ask_Print)
 
-    def retranslateUi(self, Ask_Email):
+    def retranslateUi(self, Ask_Print):
         _translate = QtCore.QCoreApplication.translate
-        Ask_Email.setWindowTitle(_translate("Ask_Email", "Form"))
-        self.label_main.setText(_translate("Ask_Email", "Would you like to email your photos?"))
-        self.pushButton_yes.setText(_translate("Ask_Email", "Yes, Please"))
-        self.pushButton_no.setText(_translate("Ask_Email", "No, Thanaks"))
+        Ask_Print.setWindowTitle(_translate("Ask_Print", "Form"))
+        self.label_main.setText(_translate("Ask_Print", "Would you like to print your photos?"))
+        self.pushButton_yes.setText(_translate("Ask_Print", "Yes, Please"))
+        self.pushButton_no.setText(_translate("Ask_Print", "No, Thanaks"))

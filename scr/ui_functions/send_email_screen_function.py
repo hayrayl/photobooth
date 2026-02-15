@@ -147,23 +147,27 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         
         return success
 
-    def skip_email(self):
-        """User clicked skip - go home without emailing"""
-        print("User skipped email")
-        self.go_to_home()
-
     def go_to_home(self):
-        """Go back to home screen"""
-        # Clear email input for next user
+        """Go to ask print screen after emailing"""
         self.lineEdit_email.clear()
         self.label_main.setText("Enter Your Email")
-        
-        # Reset to input screen state
         self.show_input_screen()
-        
-        # Re-enable buttons
         self.pushButton_send.setEnabled(True)
         self.pushButton_skip.setEnabled(True)
         
-        # Navigate to home
-        self.parentWidget().setCurrentIndex(1)
+        # Pass strip path to print screen
+        self.main_window.ask_to_print_screen.set_strip(self.photo_strip_path)
+        
+        self.parentWidget().setCurrentIndex(6)
+
+    def skip_email(self):
+        """User clicked skip - go to ask print screen"""
+        print("User skipped email")
+        self.lineEdit_email.clear()
+        self.label_main.setText("Enter Your Email")
+        self.show_input_screen()
+        
+        # Pass strip path to print screen
+        self.main_window.ask_to_print_screen.set_strip(self.photo_strip_path)
+        
+        self.parentWidget().setCurrentIndex(6)

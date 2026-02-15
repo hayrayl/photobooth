@@ -59,4 +59,4 @@ class AskToEmailScreen(QtWidgets.QWidget, Ui_Ask_Email):
     def go_to_home(self):
         """User doesn't want to email - go back to home"""
         print("User declined email")
-        self.parentWidget().setCurrentIndex(1)  # Adjust to your home screen index
+        self.parentWidget().setCurrentIndex(6)  # Adjust to your home screen index
