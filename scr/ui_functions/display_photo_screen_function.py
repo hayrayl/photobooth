@@ -30,6 +30,15 @@ class DisplayPhotoScreen(QtWidgets.QWidget, Ui_Display_Images):
         self.label_image_2.setScaledContents(True)
         self.label_image_3.setScaledContents(True)
 
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        # Apply the chosen color scheme
+        utils_screen.set_background(self.background, self.main_window.color_scheme)
+        utils_screen.style_all_buttons(self, self.main_window.color_scheme)
+        utils_screen.style_all_labels(self, self.main_window.color_scheme)
+        utils_screen.style_all_line_edits(self, self.main_window.color_scheme)
+
     def connect_signals(self):
         self.pushButton_to_print.clicked.connect(self.go_to_email_question)
 

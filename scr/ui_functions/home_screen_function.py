@@ -9,50 +9,44 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from ui_screens.home_screen import Ui_Home
 
 class HomeScreen(QtWidgets.QWidget, Ui_Home):
-    def __init__(self,main_window, parent=None):
+    def __init__(self, main_window, parent=None):
         super().__init__(parent)
-        self.setupUi(self)  # Call the setupUi method
-        self.main_window= main_window
+        self.setupUi(self)
+        self.main_window = main_window
         
         self.design_setup()
         self.connect_signals()
-
 
     def design_setup(self):
         utils_screen.set_background(self.background, self.main_window.color_scheme)
         utils_screen.style_all_buttons(self, self.main_window.color_scheme)
         utils_screen.style_all_labels(self, self.main_window.color_scheme)
+        
 
     def connect_signals(self):
         self.pushButton_take_photo.clicked.connect(self.take_photo)
-        
 
     def take_photo(self):
         print("Pressed take photo button")
         self.parentWidget().setCurrentIndex(2)
 
-
     def showEvent(self, event):
-        """Update USB status when screen appears"""
+        """Update color scheme and USB status when screen appears"""
         super().showEvent(event)
+        # Re-apply color scheme in case it changed
+        utils_screen.set_background(self.background, self.main_window.color_scheme)
+        utils_screen.style_all_buttons(self, self.main_window.color_scheme)
+        utils_screen.style_all_labels(self, self.main_window.color_scheme)
         self.check_usb_status()
 
     def check_usb_status(self):
         """Check and display USB connection status"""
         if self.main_window.usb_manager.is_usb_connected():
-            usb_path = self.main_window.usb_manager.get_first_usb()
             free_space = self.main_window.usb_manager.get_usb_free_space()
-            
             if free_space:
                 space_str = self.main_window.usb_manager.format_bytes(free_space)
-                status = f"USB Connected ({space_str} free)"
+                print(f"USB Connected ({space_str} free)")
             else:
-                status = "USB Connected"
-            
-            print(status)
-            # Optional: Display on screen
-            # self.label_header.setText(f"Welcome!\n{status}")
+                print("USB Connected")
         else:
             print("No USB - saving locally")
-            # Optional: Display on screen
-            # self.label_header.setText("Welcome!\nNo USB - saving locally")

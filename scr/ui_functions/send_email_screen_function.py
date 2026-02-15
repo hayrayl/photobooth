@@ -38,6 +38,14 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         # Initially hide the sending label
         self.label_sending.hide()
 
+    def showEvent(self, event):
+        super().showEvent(event)
+        # Apply the chosen color scheme
+        utils_screen.set_background(self.background, self.main_window.color_scheme)
+        utils_screen.style_all_buttons(self, self.main_window.color_scheme)
+        utils_screen.style_all_labels(self, self.main_window.color_scheme)
+        utils_screen.style_all_line_edits(self, self.main_window.color_scheme)
+
     def connect_signals(self):
         self.pushButton_send.clicked.connect(self.send_email)
         self.pushButton_skip.clicked.connect(self.skip_email)
