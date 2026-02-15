@@ -59,4 +59,12 @@ class AskToEmailScreen(QtWidgets.QWidget, Ui_Ask_Email):
     def go_to_home(self):
         """User doesn't want to email - go back to home"""
         print("User declined email")
-        self.parentWidget().setCurrentIndex(6)  # Adjust to your home screen index
+        
+        # Pass strip path to print screen
+        strip_path = os.path.join(
+            self.main_window.party_folder,
+            f"strip_{self.main_window.photo_session_counter - 1}.jpg"
+        )
+        self.main_window.ask_to_print_screen.set_strip(strip_path)
+        
+        self.parentWidget().setCurrentIndex(6)
