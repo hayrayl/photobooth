@@ -136,9 +136,20 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         """
         print(f"Sending photos to: {recipient_email}")
         print(f"Photo strip: {self.photo_strip_path}")
-
+        
+        # Check if strip exists
+        if not self.photo_strip_path or not os.path.exists(self.photo_strip_path):
+            print(f"ERROR: Photo strip not found at: {self.photo_strip_path}")
+            
+            # Wait a bit and check again (strip might still be creating)
+            import time
+            time.sleep(1)
+            
+            if not os.path.exists(self.photo_strip_path):
+                print("ERROR: Still no photo strip after waiting")
+                return False
+        
         print(f"Email address: {self.email_sender.email_address}")
-        print(f"Strip path exists: {os.path.exists(self.photo_strip_path)}")
         
         # Send the email using EmailSender
         success = self.email_sender.send_photo_strip(
