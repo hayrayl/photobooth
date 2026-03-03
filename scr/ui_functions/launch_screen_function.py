@@ -34,6 +34,8 @@ class LaunchScreen(QtWidgets.QWidget, Ui_Launch):
         # Clear any previous text
         self.lineEdit_party.clear()
 
+        self.lineEdit_party.setFocus()
+
     def apply_color_scheme(self):
         """Apply current color scheme to all elements"""
         # Set background

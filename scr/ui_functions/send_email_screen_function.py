@@ -46,6 +46,8 @@ class SendEmailScreen(QtWidgets.QWidget, Ui_Send_Email):
         utils_screen.style_all_labels(self, self.main_window.color_scheme)
         utils_screen.style_all_line_edits(self, self.main_window.color_scheme)
 
+        self.lineEdit_email.setFocus()
+
     def connect_signals(self):
         self.pushButton_send.clicked.connect(self.send_email)
         self.pushButton_skip.clicked.connect(self.skip_email)
