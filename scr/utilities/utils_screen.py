@@ -8,53 +8,53 @@ GREEN = {
     "border": "#9BA186"
 }
 
-PINK = {
-    "background": "#FFB6C1",
-    "button_background": "#FF69B4",
-    "text": "#FFFFFF",
-    "border": "#FF1493"
+SAGE = {
+    "background": "#B5C99A",
+    "button_background": "#718355",
+    "text": "#F5F5DC",
+    "border": "#8FA36C"
 }
 
-PURPLE = {
-    "background": "#DDA0DD",
-    "button_background": "#9370DB",
+DUSTY_ROSE = {
+    "background": "#D4A5A5",
+    "button_background": "#9B6B6B",
     "text": "#FFFFFF",
-    "border": "#8B008B"
+    "border": "#B88E8E"
 }
 
-BLUE = {
-    "background": "#87CEEB",
-    "button_background": "#4682B4",
+SLATE_BLUE = {
+    "background": "#A6B1C2",
+    "button_background": "#6B7A8F",
     "text": "#FFFFFF",
-    "border": "#1E90FF"
+    "border": "#8899AA"
 }
 
-PEACH = {
-    "background": "#FFDAB9",
-    "button_background": "#FF7F50",
+TERRACOTTA = {
+    "background": "#C89F91",
+    "button_background": "#A67C6D",
     "text": "#FFFFFF",
-    "border": "#FF6347"
+    "border": "#B38E81"
 }
 
-LAVENDER = {
-    "background": "#E6E6FA",
-    "button_background": "#BA55D3",
+LAVENDER_GRAY = {
+    "background": "#C5B9D4",
+    "button_background": "#8E7BA3",
     "text": "#FFFFFF",
-    "border": "#9370DB"
+    "border": "#A997B8"
 }
 
-MINT = {
-    "background": "#98FF98",
-    "button_background": "#3CB371",
+SEAFOAM = {
+    "background": "#A8C5B8",
+    "button_background": "#6B9080",
     "text": "#FFFFFF",
-    "border": "#2E8B57"
+    "border": "#89AA9B"
 }
 
-ROSE_GOLD = {
-    "background": "#B76E79",
-    "button_background": "#96505A",
-    "text": "#FFFFFF",
-    "border": "#D4919A"
+BLACK_GOLD = {
+    "background": "#2C2C2C",
+    "button_background": "#1A1A1A",
+    "text": "#D4AF37",
+    "border": "#B8860B"
 }
 
 def get_color_scheme(color_number):
@@ -64,26 +64,28 @@ def get_color_scheme(color_number):
     Args:
         color_number: Integer representing the color scheme
             1 = GREEN
-            2 = PINK
-            3 = PURPLE
-            4 = BLUE
-            5 = PEACH
-            6 = LAVENDER
-            7 = MINT
+            2 = SAGE
+            3 = DUSTY_ROSE
+            4 = SLATE_BLUE
+            5 = TERRACOTTA
+            6 = LAVENDER_GRAY
+            7 = SEAFOAM
+            8 = BLACK_GOLD
     
     Returns:
         Dictionary with color scheme
     """
     schemes = {
         1: GREEN,
-        2: PINK,
-        3: PURPLE,
-        4: BLUE,
-        5: PEACH,
-        6: LAVENDER,
-        7: MINT
+        2: SAGE,
+        3: DUSTY_ROSE,
+        4: SLATE_BLUE,
+        5: TERRACOTTA,
+        6: LAVENDER_GRAY,
+        7: SEAFOAM,
+        8: BLACK_GOLD
     }
-    return schemes.get(color_number, PINK)  # Default to PINK if invalid number
+    return schemes.get(color_number, GREEN)  # Default to GREEN if invalid number
 
 def get_all_color_schemes():
     """
@@ -92,15 +94,14 @@ def get_all_color_schemes():
     """
     return {
         1: GREEN,
-        2: PINK,
-        3: PURPLE,
-        4: BLUE,
-        5: PEACH,
-        6: LAVENDER,
-        7: MINT,
-        8: ROSE_GOLD
+        2: SAGE,
+        3: DUSTY_ROSE,
+        4: SLATE_BLUE,
+        5: TERRACOTTA,
+        6: LAVENDER_GRAY,
+        7: SEAFOAM,
+        8: BLACK_GOLD
     }
-
 
 def set_background(background, color_number):
     """
