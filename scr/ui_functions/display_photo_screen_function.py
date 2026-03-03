@@ -96,7 +96,10 @@ class DisplayPhotoScreen(QtWidgets.QWidget, Ui_Display_Images):
             
             # Navigate to email question screen
             self.parentWidget().setCurrentIndex(4)
-        else: 
+            
+        elif self.main_window.isPrinterConnected:
+            self.parentWidget().setCurrentIndex(6)  # Go to print screen
+        else:
             self.go_home_direct()
 
     def go_home_direct(self):
