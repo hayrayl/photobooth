@@ -49,9 +49,11 @@ class PhotoboothWindow(QMainWindow):
 
         # Initialize printer manager
         self.printer_manager = PrinterManager()
+
+        self.isPrinterConnected = self.printer_manager.is_printer_connected()
         
         # Check printer at startup
-        if self.printer_manager.is_printer_connected():
+        if self.isPrinterConnected:
             print("Printer connected: Selphy ready!")
         else:
             print("Printer not connected")

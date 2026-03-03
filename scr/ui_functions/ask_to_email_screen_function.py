@@ -33,7 +33,7 @@ class AskToEmailScreen(QtWidgets.QWidget, Ui_Ask_Email):
 
     def connect_signals(self):
         self.pushButton_yes.clicked.connect(self.go_to_email_input)
-        self.pushButton_no.clicked.connect(self.go_to_home)
+        self.pushButton_no.clicked.connect(self.no_email)
 
     def set_photos(self, photo_paths):
         """Set the photos that were just taken"""
@@ -56,7 +56,7 @@ class AskToEmailScreen(QtWidgets.QWidget, Ui_Ask_Email):
         # Navigate to email input screen
         self.parentWidget().setCurrentIndex(5)  # Index 5 is send_email_screen
 
-    def go_to_home(self):
+    def no_email(self):
         """User doesn't want to email - go back to home"""
         print("User declined email")
         
@@ -66,5 +66,8 @@ class AskToEmailScreen(QtWidgets.QWidget, Ui_Ask_Email):
             f"strip_{self.main_window.photo_session_counter - 1}.jpg"
         )
         self.main_window.ask_to_print_screen.set_strip(strip_path)
-        
-        self.parentWidget().setCurrentIndex(6)
+
+        if self.parentWidget.isPrinterConnected:
+            self.parentWidget().setCurrentIndex(6)
+        else:
+            self.parentWidget().setCurrentIndex(1)
