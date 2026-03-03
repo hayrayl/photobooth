@@ -21,7 +21,17 @@ class PrinterManager:
                 ['lpstat', '-p', self.printer_name],
                 capture_output=True, text=True
             )
-            return self.printer_name in result.stdout
+            # Check if printer exists AND is not disabled/stopped
+            if self.printer_name in result.stdout:
+                # Also check it's not in error state
+                if "disabled" in result.stdout.lower() or "stopped" in result.stdout.lower():
+                    print("Printer exists but is disabled or stopped")
+                    return False
+                print("Printer connected and ready")
+                return True
+            else:
+                print("Printer not found")
+                return False
         except Exception as e:
             print(f"Error checking printer: {e}")
             return False
