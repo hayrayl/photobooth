@@ -348,16 +348,16 @@ class CameraController:
             
             # Photo positions for LEFT strip (x, y, width, height)
             left_positions = [
-                (75, 55, 460, 460),      # Top left photo
-                (75, 545, 460, 460),     # Middle left photo
-                (75, 1035, 460, 460)      # Bottom left photo
+                (70, 50, 460, 460),      # Top left photo
+                (70, 540, 460, 460),     # Middle left photo
+                (70, 1030, 460, 460)      # Bottom left photo
             ]
             
             # Photo positions for RIGHT strip
             right_positions = [
-                (675, 55, 460, 460),     # Top right photo
-                (675, 545, 460, 460),    # Middle right photo
-                (675, 1035, 460, 460)     # Bottom right photo
+                (680, 50, 460, 460),     # Top right photo
+                (680, 540, 460, 460),    # Middle right photo
+                (680, 1030, 460, 460)     # Bottom right photo
             ]
             
             # Load and place photos ON TOP of template
