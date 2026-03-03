@@ -137,6 +137,7 @@ def style_button(button, color_number, border_radius=30):
             border: 4px solid {color_scheme['border']};
             padding: 10px;
             font-size: {font_size}pt;
+            outline: none;
         }}
         QPushButton:hover {{
             background-color: {lighten_color(color_scheme['button_background'], 15)};
@@ -145,6 +146,9 @@ def style_button(button, color_number, border_radius=30):
         QPushButton:pressed {{
             background-color: {darken_color(color_scheme['button_background'], 15)};
             border: 4px solid {darken_color(color_scheme['border'], 15)};
+        }}
+        QPushButton:focus {{
+            outline: none;
         }}
     """
     button.setStyleSheet(stylesheet)
