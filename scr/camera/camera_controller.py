@@ -348,9 +348,9 @@ class CameraController:
             
             # Photo positions for LEFT strip (x, y, width, height)
             left_positions = [
-                (70, 50, 460, 460),      # Top left photo
-                (70, 540, 460, 460),     # Middle left photo
-                (70, 1030, 460, 460)      # Bottom left photo
+                (65, 50, 460, 460),      # Top left photo
+                (65, 540, 460, 460),     # Middle left photo
+                (65, 1030, 460, 460)      # Bottom left photo
             ]
             
             # Photo positions for RIGHT strip
