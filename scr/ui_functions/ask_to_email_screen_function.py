@@ -67,7 +67,8 @@ class AskToEmailScreen(QtWidgets.QWidget, Ui_Ask_Email):
         )
         self.main_window.ask_to_print_screen.set_strip(strip_path)
 
-        if self.parentWidget.isPrinterConnected:
-            self.parentWidget().setCurrentIndex(6)
+        # Check if printer is connected
+        if self.main_window.isPrinterConnected:
+            self.parentWidget().setCurrentIndex(6)  # Go to print screen
         else:
-            self.parentWidget().setCurrentIndex(1)
+            self.parentWidget().setCurrentIndex(1)  # Go to home
