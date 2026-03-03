@@ -7,6 +7,7 @@ class PrinterManager:
         self.printer_name = "selphy"
         self.is_windows = platform.system() == "Windows"
     
+    
     def is_printer_connected(self):
         """
         Check if Selphy is connected and ready
@@ -17,24 +18,39 @@ class PrinterManager:
             return False
         
         try:
+            # Check if printer exists in lpstat
             result = subprocess.run(
                 ['lpstat', '-p', self.printer_name],
                 capture_output=True, text=True
             )
-            # Check if printer exists AND is not disabled/stopped
-            if self.printer_name in result.stdout:
-                # Also check it's not in error state
-                if "disabled" in result.stdout.lower() or "stopped" in result.stdout.lower():
-                    print("Printer exists but is disabled or stopped")
-                    return False
-                print("Printer connected and ready")
-                return True
-            else:
-                print("Printer not found")
+            
+            # Printer must be in output
+            if self.printer_name not in result.stdout:
+                print("Printer not found in lpstat")
                 return False
+            
+            # Check for bad states
+            if "disabled" in result.stdout.lower() or "stopped" in result.stdout.lower():
+                print("Printer is disabled or stopped")
+                return False
+            
+            # Also check USB connection with lsusb
+            usb_result = subprocess.run(
+                ['lsusb'],
+                capture_output=True, text=True
+            )
+            
+            if "Canon" not in usb_result.stdout or "SELPHY" not in usb_result.stdout:
+                print("Printer not found on USB")
+                return False
+            
+            print("Printer connected and ready")
+            return True
+            
         except Exception as e:
             print(f"Error checking printer: {e}")
             return False
+
     
     def print_photo_strip(self, strip_path):
         """
