@@ -56,4 +56,14 @@ class Ui_Ask_Email(object):
         Ask_Email.setWindowTitle(_translate("Ask_Email", "Form"))
         self.label_main.setText(_translate("Ask_Email", "Would you like to email your photos?"))
         self.pushButton_yes.setText(_translate("Ask_Email", "Yes, Please"))
-        self.pushButton_no.setText(_translate("Ask_Email", "No, Thanaks"))
+        self.pushButton_no.setText(_translate("Ask_Email", "No, Thanks"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Ask_Email = QtWidgets.QWidget()
+    ui = Ui_Ask_Email()
+    ui.setupUi(Ask_Email)
+    Ask_Email.show()
+    sys.exit(app.exec_())

@@ -82,7 +82,7 @@
   <widget class="QPushButton" name="pushButton_to_print">
    <property name="geometry">
     <rect>
-     <x>387</x>
+     <x>570</x>
      <y>500</y>
      <width>250</width>
      <height>65</height>
@@ -138,12 +138,32 @@
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_retake">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>500</y>
+     <width>250</width>
+     <height>65</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Pacifico</family>
+     <pointsize>22</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Retake</string>
+   </property>
+  </widget>
   <zorder>background</zorder>
   <zorder>label_image_1</zorder>
   <zorder>label_image_2</zorder>
   <zorder>label_image_3</zorder>
   <zorder>pushButton_to_print</zorder>
   <zorder>label_main_text</zorder>
+  <zorder>pushButton_retake</zorder>
  </widget>
  <resources/>
  <connections/>

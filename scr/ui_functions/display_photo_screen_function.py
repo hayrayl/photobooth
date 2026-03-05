@@ -41,6 +41,7 @@ class DisplayPhotoScreen(QtWidgets.QWidget, Ui_Display_Images):
 
     def connect_signals(self):
         self.pushButton_to_print.clicked.connect(self.go_to_email_question)
+        self.pushButton_retake.clicked.connect(self.retake_photos)
 
     def set_photos(self, photo_paths):
         """Set the photos to display"""
@@ -96,7 +97,7 @@ class DisplayPhotoScreen(QtWidgets.QWidget, Ui_Display_Images):
             
             # Navigate to email question screen
             self.parentWidget().setCurrentIndex(4)
-            
+
         elif self.main_window.isPrinterConnected:
             self.parentWidget().setCurrentIndex(6)  # Go to print screen
         else:
@@ -106,3 +107,9 @@ class DisplayPhotoScreen(QtWidgets.QWidget, Ui_Display_Images):
         """Go directly to home without email"""
         self.label_main_text.setText("Your Pictures!")
         self.parentWidget().setCurrentIndex(1)
+
+    def retake_photos(self):
+        """Go back to take photo screen to retake"""
+        print("User wants to retake photos")
+        # Go back to take photo screen (index 2)
+        self.parentWidget().setCurrentIndex(2)

@@ -56,4 +56,14 @@ class Ui_Ask_Print(object):
         Ask_Print.setWindowTitle(_translate("Ask_Print", "Form"))
         self.label_main.setText(_translate("Ask_Print", "Would you like to print your photos?"))
         self.pushButton_yes.setText(_translate("Ask_Print", "Yes, Please"))
-        self.pushButton_no.setText(_translate("Ask_Print", "No, Thanaks"))
+        self.pushButton_no.setText(_translate("Ask_Print", "No, Thanks"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Ask_Print = QtWidgets.QWidget()
+    ui = Ui_Ask_Print()
+    ui.setupUi(Ask_Print)
+    Ask_Print.show()
+    sys.exit(app.exec_())
