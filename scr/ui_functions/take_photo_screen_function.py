@@ -139,7 +139,7 @@ class TakePhotoScreen(QtWidgets.QWidget, Ui_TakePhoto):
 
     def start_countdown(self):
         """Start countdown for current photo"""
-        self.countdown_value = 3
+        self.countdown_value = 5
         
         self.label_countdown.show()
         self.label_countdown_2.show()
