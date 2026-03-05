@@ -98,15 +98,34 @@ class DisplayPhotoScreen(QtWidgets.QWidget, Ui_Display_Images):
             # Navigate to email question screen
             self.parentWidget().setCurrentIndex(4)
 
-        elif self.main_window.isPrinterConnected:
-            self.parentWidget().setCurrentIndex(6)  # Go to print screen
         else:
             self.go_home_direct()
 
+
     def go_home_direct(self):
-        """Go directly to home without email"""
+        """Go directly to print question (or home) when no internet"""
         self.label_main_text.setText("Your Pictures!")
-        self.parentWidget().setCurrentIndex(1)
+        
+        # Get strip path
+        strip_path = os.path.join(
+            self.main_window.party_folder,
+            f"strip_{self.main_window.photo_session_counter - 1}.jpg"
+        )
+        
+        print(f"DEBUG: Strip path: {strip_path}")
+        print(f"DEBUG: Strip exists: {os.path.exists(strip_path)}")
+        
+        # ALWAYS set the strip path
+        self.main_window.ask_to_print_screen.set_strip(strip_path)
+        
+        # Check if printer is connected
+        if self.main_window.printer_manager.is_printer_connected():
+            print("No internet but printer connected - going to print screen")
+            self.parentWidget().setCurrentIndex(6)  # Go to print screen
+        else:
+            print("No internet and no printer - going to home")
+            self.parentWidget().setCurrentIndex(1)  # Go to home
+
 
     def retake_photos(self):
         """Go back to take photo screen to retake"""
