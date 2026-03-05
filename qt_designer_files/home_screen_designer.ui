@@ -73,15 +73,15 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>464</y>
+     <y>449</y>
      <width>1021</width>
-     <height>111</height>
+     <height>141</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Pacifico</family>
-     <pointsize>16</pointsize>
+     <pointsize>20</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
@@ -93,12 +93,15 @@ Digital copies of all photos are saved and provided to the event host</string>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
+   <property name="wordWrap">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="label_header_3">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>154</y>
+     <y>156</y>
      <width>1021</width>
      <height>101</height>
     </rect>
@@ -106,7 +109,7 @@ Digital copies of all photos are saved and provided to the event host</string>
    <property name="font">
     <font>
      <family>Pacifico</family>
-     <pointsize>24</pointsize>
+     <pointsize>25</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
@@ -116,6 +119,9 @@ Digital copies of all photos are saved and provided to the event host</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>
