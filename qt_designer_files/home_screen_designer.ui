@@ -30,21 +30,21 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>60</y>
+     <y>35</y>
      <width>1021</width>
-     <height>221</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Pacifico</family>
      <pointsize>31</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
+     <weight>50</weight>
+     <bold>false</bold>
     </font>
    </property>
    <property name="text">
-    <string>Press start to begin taking your photos!</string>
+    <string>Get Ready to Strike a Pose! </string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -54,9 +54,9 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>330</y>
+     <y>304</y>
      <width>400</width>
-     <height>150</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="font">
@@ -67,6 +67,55 @@
    </property>
    <property name="text">
     <string>Start</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_header_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>464</y>
+     <width>1021</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Pacifico</family>
+     <pointsize>16</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>NOTICE:By pressing Start, you consent to being photographed.
+Digital copies of all photos are saved and provided to the event host</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_header_3">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>154</y>
+     <width>1021</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Pacifico</family>
+     <pointsize>24</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>We'll take 3 photos in a row, so keep those smiles coming!</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>
