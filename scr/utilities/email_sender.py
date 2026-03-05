@@ -42,7 +42,11 @@ Thank you for using our photobooth!
 
 Your photo strip is attached to this email. We hope you had a great time!
 
-Feel free to share your photos on social media and tag us!
+Feel free to share your photos on social media and tag us! 
+
+Follow us on Facebook to see more event highlights: https://www.facebook.com/CTFphotobooth/
+
+Loved the experience? Book Capture The Foto (CTF) for your next graduation, wedding, or party! Contact us at ctf.photobooth@gmail.com for rates and availability.
 
 ---
 This is an automated email from Capture The Foto - CTF photobooth.
