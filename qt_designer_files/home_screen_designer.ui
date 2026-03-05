@@ -75,13 +75,13 @@
      <x>0</x>
      <y>449</y>
      <width>1021</width>
-     <height>141</height>
+     <height>151</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Pacifico</family>
-     <pointsize>20</pointsize>
+     <pointsize>24</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
@@ -109,7 +109,7 @@ Digital copies of all photos are saved and provided to the event host</string>
    <property name="font">
     <font>
      <family>Pacifico</family>
-     <pointsize>32</pointsize>
+     <pointsize>30</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
